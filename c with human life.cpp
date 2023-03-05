@@ -1,9 +1,11 @@
-//hello everyone
+//head
 #include <stdio.h>
 #include <time.h>
 #define _CRT_SECURE_NO_WARNINGS
 float years, mounths, ANyears, ANmounths, days;
 long long int ANdays, hours, minutes, seconds, tm_years, tm_mounths, tm_days, sec, min, hou, md, mon, yea;
+
+//SYSTEMtime
 /**
  * @brief
  *
@@ -34,10 +36,30 @@ int tm_wday 一星期的日数，从星期一算起，范围为 0-6
 int tm_yday 从今年 1 月 1 日算起至今的天数，范围为 0-365 int tm_isdst 日光节约时间的旗标 此函数返回的时间日期未经时区转换，而是 UTC 时间。
 
 */
-void year() {
+void time_tm() {
+	time_t timep;
+	time(&timep);
+
+	// printf("%s\n", ctime(&timep));
+
+	struct tm* p;
+	p = gmtime(&timep);
+
+	sec = p->tm_sec;         /*获取当前秒*/
+	min = p->tm_min;         /*获取当前分*/
+	hou = 8 + p->tm_hour;    /*获取当前时,这里获取UTC时间,中国是UTC+8*/
+	md = p->tm_mday;        /*获取当前月份日数,范围是1-31*/
+	mon = 1 + p->tm_mon;     /*获取当前月份,范围是0-11,所以要加1*/
+	yea = 1900 + p->tm_year; /*获取当前年份,从1900开始，所以要加1900*/
+}
+
+//questions
+void questions() {
+	
+	//year 
 	printf("enter your upyear: \n");
 	scanf("%f", &years);
-	while(1) {
+	while (1) {
 		if (years <= 0 || years >= yea) {
 			printf("this year is a joke,please try again: \n");
 			scanf("%f", &years);
@@ -47,12 +69,11 @@ void year() {
 		}
 	}
 	
-}
-void mounth() {
+	//mounth
 	printf("enter your upmounth: \n");
 	scanf("%f", &mounths);
 	while (1) {
-		if (mounths <= 0 || mounths > 12 ) {
+		if (mounths <= 0 || mounths > 12) {
 			printf("this mounths is a joke,please try again: \n");
 			scanf("%f", &mounths);
 		}
@@ -60,9 +81,8 @@ void mounth() {
 			return;
 		}
 	}
-
-}
-void day() {
+	
+	//day
 	printf("enter your upday: \n");
 	scanf("%f", &days);
 	while (1) {
@@ -76,42 +96,27 @@ void day() {
 	}
 
 }
-void time_tm() {
-	time_t timep;
-	time(&timep);
 
-	// printf("%s\n", ctime(&timep));
-
-	struct tm* p;
-	p = gmtime(&timep);
-
-	sec =  p->tm_sec;         /*获取当前秒*/
-	min =  p->tm_min;         /*获取当前分*/
-	hou =  8 + p->tm_hour;    /*获取当前时,这里获取UTC时间,中国是UTC+8*/
-	md  =  p->tm_mday;        /*获取当前月份日数,范围是1-31*/
-	mon =  1 + p->tm_mon;     /*获取当前月份,范围是0-11,所以要加1*/
-	yea =  1900 + p->tm_year; /*获取当前年份,从1900开始，所以要加1900*/
-}
-void anyears() {
-	ANyears = yea - years;
-	printf("you are life %f years \n", ANyears);
-}
-void anmounths() {
+//answers
+void answers() {
+	ANyears = +yea - years;
 	ANmounths = mon + ANyears * 12;
-	printf("you are life %f mounths \n", ANmounths);
-}
-void andays() {
 	ANdays = md + 365 * ANyears;
+	hours = hou + 24 * ANdays;
+
+	printf("you are life %f years \n", ANyears);
+	printf("you are life %f mounths \n", ANmounths);
 	printf("you are life %llu days \n", ANdays);
+	printf("you are life %llu hours \n", hours);
+
 }
 int main(void) {
 	time_tm();
-	year();
-	mounth();
-	day();
-	anyears();
-	anmounths();
-	andays();
+	questions();
+	answers();
+
+
+
 
 }
 
