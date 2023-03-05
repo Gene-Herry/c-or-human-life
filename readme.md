@@ -1,1 +1,1 @@
-ls
+This is a project to calculate how many months, days, years, hours, minutes, seconds, and how many months, days, years, hours, minutes, seconds a person has left in their life, this project aims to make people understand the value of life
